@@ -1,7 +1,8 @@
+# Essentials
 brew "stow"
 brew "mise"
 
-# Terminal tools
+# CLI Tools
 brew "neovim"
 brew "zsh"
 brew "tree"
@@ -9,40 +10,40 @@ brew "zoxide"
 brew "fzf"
 brew "coreutils"
 brew "delta"
-# brew "ripgrep"
-# brew "the_silver_searcher"
+brew "ripgrep"
+brew "posting"
 
-# Fonts
-cask "font-jetbrains-mono-nerd-font"
+# Dev Tools
+cask "docker"
+cask "visual-studio-code"
+cask "android-studio"
+cask "pgadmin4"
+cask "lm-studio"
+brew "postgresql"
+brew "mongodb-community"
 
 # Communication
 cask "slack"
 cask "zoom"
 
-# Web
+# Browsers
 cask "google-chrome"
 cask "brave-browser"
 cask "firefox"
 cask "google-chrome@canary"
 
-# Other
+# Utilities
 cask "google-drive"
-cask "simplenote"
 cask "karabiner-elements"
+cask "the-unarchiver"
+cask "simplenote"
+cask "obs"
+
+# Media & Graphics
 cask "gimp"
 cask "inkscape"
 cask "vlc"
-cask "the-unarchiver"
-# cask "blender"
-# cask "calibre"
+cask "qcad"
 
-# Databases
-brew "postgresql"
-cask "postico"
-# brew "mongodb"
-# brew "mongodb-community"
-
-# Dev Tools
-brew install posting
-cask "docker"
-cask "visual-studio-code"
+# Fonts
+cask "font-jetbrains-mono-nerd-font"
