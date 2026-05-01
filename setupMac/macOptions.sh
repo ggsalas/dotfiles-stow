@@ -4,6 +4,9 @@
 defaults write NSGlobalDomain KeyRepeat -int 2
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
+# Show scroll bars only when scrolling
+defaults write NSGlobalDomain AppleShowScrollBars -string "WhenScrolling"
+
 # Disable press-and-hold for keys (required for key repeat in vim)
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
@@ -14,7 +17,9 @@ defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
-# Move a window by Ctrl+Cmd+dragging from anywhere (not just the title bar)
+# Require password 15 min after sleep or screen saver
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 900
 defaults write -g NSWindowShouldDragOnGesture -bool true
 
 # Finder
@@ -89,6 +94,11 @@ set_hotkey 98  true  47 44 1179648  # Shift+Cmd+/
 
 # Apply hotkey changes
 /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+
+# Reload tmux config if running
+if command -v tmux &> /dev/null && tmux has-session 2>/dev/null; then
+  tmux source-file ~/dotfiles/tmux/tmux.conf 2>/dev/null
+fi
 
 echo "macOS options applied. Restart may be required."
 

@@ -37,13 +37,12 @@ cask "the-unarchiver"
 # cask "calibre"
 
 # Databases
-# brew "postgresql"
-# cask "postico"
+brew "postgresql"
+cask "postico"
 # brew "mongodb"
 # brew "mongodb-community"
 
 # Dev Tools
-# cask "docker"
-# cask "postman"
-# cask "visual-studio-code"
-# cask "virtualbox"
+brew install posting
+cask "docker"
+cask "visual-studio-code"

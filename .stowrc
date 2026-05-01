@@ -1,2 +1,4 @@
 --target=$HOME
 --verbose=1
+--ignore=setupMac
+--ignore=README.md
