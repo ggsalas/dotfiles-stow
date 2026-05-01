@@ -9,6 +9,6 @@ function fg-bg() {
 
 # Kill all processes that use a specific port
 function kill-port() {
-  port=$@
+  port=$1
   kill $(lsof -t -i:${port})
 }

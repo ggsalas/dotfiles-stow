@@ -1,0 +1,49 @@
+brew "stow"
+brew "mise"
+
+# Terminal tools
+brew "neovim"
+brew "zsh"
+brew "tree"
+brew "zoxide"
+brew "fzf"
+brew "coreutils"
+brew "delta"
+# brew "ripgrep"
+# brew "the_silver_searcher"
+
+# Fonts
+cask "font-jetbrains-mono-nerd-font"
+
+# Communication
+cask "slack"
+cask "zoom"
+
+# Web
+cask "google-chrome"
+cask "brave-browser"
+cask "firefox"
+cask "google-chrome@canary"
+
+# Other
+cask "google-drive"
+cask "simplenote"
+cask "karabiner-elements"
+cask "gimp"
+cask "inkscape"
+cask "vlc"
+cask "the-unarchiver"
+# cask "blender"
+# cask "calibre"
+
+# Databases
+# brew "postgresql"
+# cask "postico"
+# brew "mongodb"
+# brew "mongodb-community"
+
+# Dev Tools
+# cask "docker"
+# cask "postman"
+# cask "visual-studio-code"
+# cask "virtualbox"

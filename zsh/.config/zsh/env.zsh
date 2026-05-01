@@ -1,7 +1,6 @@
 export EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER="less -R"
-export BROWSER="Brave"
 export LANG="en_US.UTF-8"
 
 # android
