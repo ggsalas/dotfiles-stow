@@ -32,8 +32,6 @@ stow .
 
 `stow .` creates symlinks from each config folder into `$HOME`, based on the `.stowrc` target setting.
 
-**Note:** Set your keyboard to US layout in System Settings. With US layout, press Alt+E to type accented vowels (e.g., Alt+E → é, Alt+N → ñ).
-
 ### 3. Install brew packages
 
 ```sh
@@ -47,6 +45,8 @@ brew-sync
 ```sh
 mac-setup
 ```
+
+**Note:** Set your keyboard to US layout in System Settings. With US layout, press Alt+E to type accented vowels (e.g., Alt+E → é, Alt+N → ñ).
 
 ---
 

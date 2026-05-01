@@ -12,9 +12,6 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       local actions = require 'telescope.actions'
-      local finders = require 'telescope.finders'
-      local pickers = require 'telescope.pickers'
-      local conf = require('telescope.config').values
       local utils = require('telescope.utils')
       local builtin = require('telescope.builtin')
       local themes = require('telescope.themes')
@@ -61,27 +58,6 @@ return {
 
       -- Enable handling for code actions
       require('telescope').load_extension 'ui-select'
-
-      -- Custom Picker
-      ----------------
-      local dot_files = function(opts)
-        opts = opts or {}
-        local job_command = vim.tbl_flatten({
-          'sh',
-          '-c',
-          'git --git-dir $HOME/.dotfiles/ ls-files --full-name | sed "s,^,$HOME/,"'
-        })
-        local finder = finders.new_oneshot_job(job_command)
-        local previewer = conf.file_previewer(opts)
-        local sorter = conf.file_sorter(opts)
-
-        pickers.new(opts, {
-          prompt_title = 'DotFiles',
-          finder = finder,
-          previewer = previewer,
-          sorter = sorter,
-        }):find()
-      end
 
       -- Custom actions
       -----------------
@@ -131,7 +107,6 @@ return {
       local buffer_list = function()
         local width_padding = function()
           local cols = vim.o.columns
-          -- print(vim.inspect(cols))
 
           if cols < 80 then
             return .9
@@ -175,12 +150,6 @@ return {
         }
       end
 
-      local search_dot_files = function()
-        dot_files({
-          previewer = false,
-        })
-      end
-
       local search_notes = function()
         builtin.find_files({
           prompt_title = "Notes",
@@ -189,6 +158,15 @@ return {
         })
       end
 
+      local search_dot_files = function()
+        builtin.git_files({
+          prompt_title = "DotFiles",
+          cwd = "~/dotfiles",
+          disable_devicons = true,
+          no_ignore = true,
+          hidden = true,
+        })
+      end
 
       -- Mappings
       -----------
