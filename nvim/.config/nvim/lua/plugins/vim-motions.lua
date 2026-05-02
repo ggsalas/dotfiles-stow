@@ -1,8 +1,7 @@
 return {
   -- better vim motions
   ---------------------
-  "ggandor/leap.nvim",
-  dependencies = { "RRethy/nvim-base16" },
+  "https://codeberg.org/andyg/leap.nvim",
   config = function()
     local leap = require('leap')
 

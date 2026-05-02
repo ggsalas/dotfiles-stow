@@ -1,8 +1,10 @@
 # Essentials
+run "echo '📦 Setting up Essentials...'"
 brew "stow"
 brew "mise"
 
 # CLI Tools
+run "echo '🔧 Setting up CLI Tools...'"
 brew "neovim"
 brew "zsh"
 brew "tree"
@@ -14,6 +16,7 @@ brew "ripgrep"
 brew "posting"
 
 # Dev Tools
+run "echo '🛠️ Setting up Dev Tools...'"
 cask "docker"
 cask "visual-studio-code"
 cask "android-studio"
@@ -23,16 +26,19 @@ brew "postgresql"
 brew "mongodb-community"
 
 # Communication
+run "echo '💬 Setting up Communication...'"
 cask "slack"
 cask "zoom"
 
 # Browsers
+run "echo '🌐 Setting up Browsers...'"
 cask "google-chrome"
 cask "brave-browser"
 cask "firefox"
 cask "google-chrome@canary"
 
 # Utilities
+run "echo '⚙️ Setting up Utilities...'"
 cask "google-drive"
 cask "karabiner-elements"
 cask "the-unarchiver"
@@ -40,10 +46,15 @@ cask "simplenote"
 cask "obs"
 
 # Media & Graphics
+run "echo '🎨 Setting up Media & Graphics...'"
 cask "gimp"
 cask "inkscape"
 cask "vlc"
 cask "qcad"
 
 # Fonts
+run "echo '🔤 Setting up Fonts...'"
 cask "font-jetbrains-mono-nerd-font"
+
+# Final: mise tools
+run "echo '📦 Installing dev tools with mise...' && mise install --no-confirm"

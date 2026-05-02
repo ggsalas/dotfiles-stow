@@ -1,51 +1,28 @@
 return {
-  -- COPILOT
-  {
-    "zbirenbaum/copilot-cmp",
-    event = "InsertEnter",
-    config = function()
-      require("copilot_cmp").setup()
-    end,
-    dependencies = {
-      {
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        config = function()
-          require("copilot").setup({
-            suggestion = { enabled = false }, -- disable inline suggestions if you want to use cmp menu only
-            panel = { enabled = false },
-          })
-        end,
+  "zbirenbaum/copilot.lua",
+  event = "InsertEnter",
+  opts = {
+    suggestion = {
+      enabled = true,
+      auto_trigger = false,
+      debounce = 15,
+      keymap = {
+        accept = "<C-y>",
+        next = "<C-.>",
+        prev = "<C-,>",
+        dismiss = "<C-e>",
+        trigger = "<C-]>",
       },
-      "hrsh7th/nvim-cmp",
+    },
+    panel = {
+      enabled = false,
     },
   },
+  config = function(_, opts)
+    require("copilot").setup(opts)
 
-  {
-    'NickvanDyke/opencode.nvim',
-    enable = false, -- set to `true` to enable
-    dependencies = {
-      -- Recommended for better prompt input, and required to use opencode.nvim's embedded terminal — otherwise optional
-      { 'folke/snacks.nvim', opts = { input = { enabled = true } } },
-    },
-    -- @type opencode.Opts
-    opts = {
-      -- Your configuration, if any — see lua/opencode/config.lua
-    },
-    keys = {
-      -- Recommended keymaps
-      { '<leader>oA', function() require('opencode').ask() end,                                     desc = 'Ask opencode', },
-      { '<leader>oa', function() require('opencode').ask('@cursor: ') end,                          desc = 'Ask opencode about this',      mode = 'n', },
-      { '<leader>oa', function() require('opencode').ask('@selection: ') end,                       desc = 'Ask opencode about selection', mode = 'v', },
-      { '<leader>ot', function() require('opencode').toggle() end,                                  desc = 'Toggle embedded opencode', },
-      { '<leader>on', function() require('opencode').command('session_new') end,                    desc = 'New session', },
-      { '<leader>oy', function() require('opencode').command('messages_copy') end,                  desc = 'Copy last message', },
-      -- { '<S-C-u>',    function() require('opencode').command('messages_half_page_up') end,          desc = 'Scroll messages up', },
-      -- { '<S-C-d>',    function() require('opencode').command('messages_half_page_down') end,        desc = 'Scroll messages down', },
-      { '<leader>op', function() require('opencode').select_prompt() end,                           desc = 'Select prompt',                mode = { 'n', 'v', }, },
-
-      -- Example: keymap for custom prompt
-      { '<leader>oe', function() require('opencode').prompt("Explain @cursor and its context") end, desc = "Explain code near cursor", },
-    },
-  },
+    vim.keymap.set("i", "<C-]>", function()
+      require("copilot.suggestion").next()
+    end, { silent = true })
+  end,
 }

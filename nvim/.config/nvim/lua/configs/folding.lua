@@ -1,22 +1,20 @@
-function GGsalasFoldStyle()
+function FoldStyle()
   local foldstart = vim.v.foldstart
   local foldend = vim.v.foldend
   local line = vim.fn.getline(foldstart)
 
+  local tabstop = vim.bo.tabstop
+  line = line:gsub("\t", string.rep(" ", tabstop))
+  line = line:sub(1, 30)
+
   local nucolwidth = vim.wo.foldcolumn + (vim.wo.number and vim.wo.numberwidth or 0)
   local windowwidth = vim.fn.winwidth(0) - nucolwidth - 3
-  local foldedlinecount = (foldend - foldstart) .. " lines  "
+  local foldedlinecount = (foldend - foldstart + 1) .. " lines"
 
-  -- expand tabs into spaces
-  local tabstop = vim.bo.tabstop
-  line = line:gsub("\t", function()
-    return string.rep(" ", tabstop)
-  end)
+  local textwidth = #line + #foldedlinecount + 3
+  local fillchars = windowwidth - textwidth
 
-  line = line:sub(1, windowwidth - 2 - #foldedlinecount) .. " "
-  local fillcharcount = windowwidth - #line - #foldedlinecount
-
-  return line .. string.rep(".", fillcharcount) .. " " .. foldedlinecount
+  return line .. string.rep(".", fillchars) .. " " .. foldedlinecount .. " ▼ "
 end
 
 vim.api.nvim_create_user_command("FoldSyntax", function()
@@ -40,15 +38,15 @@ vim.api.nvim_create_user_command("FoldDiff", function()
 end, {})
 
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-vim.opt.foldtext = "GGsalasFoldStyle()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldtext = "v:lua.FoldStyle()"
 vim.opt.foldlevel = 99
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
   callback = function()
     vim.wo.foldmethod = "expr"
     vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-    vim.wo.foldtext = "GGsalasFoldStyle()"
+    vim.wo.foldtext = "v:lua.FoldStyle()"
     vim.wo.foldlevel = 99
   end,
 })

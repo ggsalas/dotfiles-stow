@@ -48,7 +48,7 @@ return {
           markdown = { "prettierd", "prettier", stop_after_first = true },
           graphql = { "prettierd", "prettier", stop_after_first = true },
           liquid = { "prettierd", "prettier", stop_after_first = true },
-          lua = { "stylua" },
+          lua = { "stylua", args = { "--search-parent-directories", "-" } },
           python = { "isort", "black" },
         },
         format_on_save = {

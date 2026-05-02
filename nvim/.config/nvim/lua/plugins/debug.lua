@@ -5,8 +5,24 @@ return {
     "mfussenegger/nvim-dap",
     event = 'VeryLazy',
     config = function()
+      local dap = require("dap")
+
+      -- Custom adapter for pwa-node using js-debug-adapter from Mason
+      dap.adapters["pwa-node"] = {
+        type = "server",
+        host = "localhost",
+        port = "${port}",
+        executable = {
+          command = "node",
+          args = {
+            vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
+            "${port}",
+          },
+        },
+      }
+
       for _, language in ipairs({ "typescript", "javascript" }) do
-        require("dap").configurations[language] = {
+        dap.configurations[language] = {
           {
             type = "pwa-node",
             request = "launch",
@@ -28,6 +44,23 @@ return {
       vim.fn.sign_define('DapLogPoint', { text = ' ', texthl = 'GitSignsAdd', linehl = '', numhl = '' })
       vim.fn.sign_define('DapBreakpointCondition', { text = ' ', texthl = 'GitSignsChange', linehl = '', numhl = '' })
       vim.fn.sign_define('DapStopped', { text = ' ', texthl = 'GitSignsDelete', linehl = '', numhl = '' })
+
+      -- Keymaps
+      vim.keymap.set("n", "<F5>", function() dap.continue() end)
+      vim.keymap.set("n", "<F10>", function() dap.step_over() end)
+    end
+  },
+
+  -- Mason DAP installer (depends on mason from lsp.lua)
+  -----------------------------------------------------
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    config = function()
+      require("mason-nvim-dap").setup({
+        ensure_installed = { "js-debug-adapter" },
+        automatic_installation = true,
+      })
     end
   },
 
@@ -81,7 +114,7 @@ return {
               { id = "breakpoints", size = 0.30 },
               { id = "watches",     size = 0.30 },
               { id = "stacks",      size = 0.20 },
-              { id = "console",     size = 0.20 }, -- don't know what is for yet
+              { id = "console",     size = 0.20 },
             },
             position = "right",
             size = 50
@@ -122,31 +155,10 @@ return {
       vim.keymap.set('n', '<Leader>dl', function() dap.run_last() end)
       vim.keymap.set('n', '<Leader>d;', function() dapui_widgets.centered_float(widgets.scopes) end)
 
-      vim.keymap.set('n', '<leader>d<down>', function() dap.step_into() end)  -- ↓
-      vim.keymap.set('n', '<leader>d<up>', function() dap.step_out() end)     -- 
-      vim.keymap.set('n', '<leader>d<right>', function() dap.step_over() end) -- ->
-      vim.keymap.set('n', '<leader>d<left>', function() dap.step_back() end)  -- <-
-    end
-  },
-
-  -- DAP-based JavaScript debugger
-  --------------------------------
-  {
-    "microsoft/vscode-js-debug",
-    build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
-  },
-
-  -- nvim-dap adapter for vscode-js-debug
-  ---------------------------------------
-  {
-    "mxsdev/nvim-dap-vscode-js",
-    dependencies = {
-      "mfussenegger/nvim-dap"
-    },
-    config = function()
-      require("dap-vscode-js").setup({
-        adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }, -- which adapters to register in nvim-dap
-      })
+      vim.keymap.set('n', '<leader>d<down>', function() dap.step_into() end)
+      vim.keymap.set('n', '<leader>d<up>', function() dap.step_out() end)
+      vim.keymap.set('n', '<leader>d<right>', function() dap.step_over() end)
+      vim.keymap.set('n', '<leader>d<left>', function() dap.step_back() end)
     end
   },
 }

@@ -72,17 +72,6 @@ vim.keymap.set("v", "K", ":m '<-2<cr>gv=gv")
 vim.keymap.set("n", "<Leader>r", ":%s/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>")
 vim.keymap.set("v", "<Leader>r", 'y :%s/<C-r>"/<C-r><C-w>/gc<Left><Left><Left>')
 
--- Run file
--- local function run_file()
---   local ft = vim.bo.filetype
---   if ft == "javascript" then
---     vim.cmd(":!node % <CR>")
---   elseif ft == "python" then
---     vim.cmd(":!python3 % <CR>")
---   else
---     print("No run command defined for filetype: " .. ft)
---   end
--- end
 local function run_file(onSplit)
   vim.cmd("write")
 
@@ -105,4 +94,6 @@ local function run_file(onSplit)
 end
 
 -- vim.keymap.set("n", "<leader>.", run_file, { noremap = true })
-vim.keymap.set("n", "<leader>.", function() run_file(true) end, { noremap = true })
+vim.keymap.set("n", "<leader>.", function()
+  run_file(true)
+end, { noremap = true })
