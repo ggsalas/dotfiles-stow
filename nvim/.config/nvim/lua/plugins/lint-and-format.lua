@@ -22,10 +22,6 @@ return {
           lint.try_lint()
         end,
       })
-
-      -- vim.keymap.set("n", "<leader>l", function()
-      --   lint.try_lint()
-      -- end, { desc = "Trigger linting for current file" })
     end,
   },
   {
@@ -64,8 +60,7 @@ return {
           async = false,
           timeout_ms = 1000,
         })
-      end, { desc = "Format file or range (in visual mode)" })
+      end)
     end,
-  }
+  },
 }
-

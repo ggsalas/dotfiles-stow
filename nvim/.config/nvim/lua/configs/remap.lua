@@ -12,13 +12,6 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
--- Reload vim config
-vim.keymap.set(
-  "n",
-  "<leader>nr",
-  ":lua package.loaded.config = nil <cr>:source ~/.config/nvim/init.lua <cr>:echo 'Neovim Config Reloaded' <cr>"
-)
-
 -- Window movments
 vim.keymap.set({ "n", "i", "t" }, "<c-j>", "<c-\\><c-n>:wincmd j<CR>")
 vim.keymap.set({ "n", "i", "t" }, "<c-k>", "<c-\\><c-n>:wincmd k<CR>")

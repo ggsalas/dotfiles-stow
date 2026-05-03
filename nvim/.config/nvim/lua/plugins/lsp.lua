@@ -1,19 +1,13 @@
 return {
-  -- Automatically install LSPs to stdpath for neovim
-  ---------------------------------------------------
+  -- ======================
+  -- MASON
+  -- ======================
   {
     "williamboman/mason.nvim",
     lazy = false,
     config = function()
       require("mason").setup()
     end,
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    lazy = false,
-    opts = {
-      auto_install = true,
-    },
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -25,184 +19,155 @@ return {
           "isort",
           "stylua",
           "eslint_d",
+
+          -- LSPs
+          "clangd",
+          "pyright",
+          "typescript-language-server",
+          "lua-language-server",
+          "phpactor",
+          "tailwindcss-language-server",
+          "css-lsp",
+          "cssmodules-language-server",
         },
       })
     end,
   },
 
-  -- Handle native neovim LSP
-  ---------------------------
+  -- ======================
+  -- LSP
+  -- ======================
   {
     "neovim/nvim-lspconfig",
     lazy = false,
     config = function()
       local builtin = require("telescope.builtin")
 
-      --  This function gets run when an LSP connects to a particular buffer.
-      local on_attach = function(event)
-        -- Keymaps here will work only after LSP connects
-        -- sets the mode, buffer and description for each keymap
+      -- 🔑 on_attach
+      local on_attach = function(_, bufnr)
         local nmap = function(keys, func, desc)
-          if desc then
-            desc = "LSP: " .. desc
-          end
-
-          vim.keymap.set("n", keys, func, { buffer = event.buf, desc = desc })
+          vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc and ("LSP: " .. desc) })
         end
 
-        nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-        nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+        -- Actions
+        nmap("<leader>rn", vim.lsp.buf.rename, "Rename")
+        nmap("ga", vim.lsp.buf.code_action, "Code Action (quick)")
 
-        nmap("gd", builtin.lsp_definitions, "[G]oto [D]efinition")
-        nmap("gr", builtin.lsp_references, "[G]oto [R]eferences")
-        nmap("gi", builtin.lsp_implementations, "[G]oto [I]mplementation")
-        nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-        nmap("ga", vim.lsp.buf.code_action, "[G]oto [A]ction")
+        -- navigation
+        nmap("gd", builtin.lsp_definitions, "Goto Definition")
+        nmap("gr", builtin.lsp_references, "Goto References")
+        nmap("gi", builtin.lsp_implementations, "Goto Implementation")
+        nmap("gD", vim.lsp.buf.declaration, "Goto Declaration")
 
-        nmap("[e", function()
-          vim.diagnostic.jump({ backward = true })
-        end)
-        nmap("]e", function()
-          vim.diagnostic.jump({ forward = true })
-        end)
+        -- diagnostics
+        local function goto_diag(next)
+          return function()
+            vim.diagnostic.jump({ count = next and 1 or -1 })
+            vim.schedule(function()
+              vim.diagnostic.open_float(nil, { focus = false })
+            end)
+          end
+        end
 
-        nmap("<leader>D", builtin.lsp_type_definitions, "Type [D]efinition")
-        nmap("<leader>ds", builtin.lsp_document_symbols, "[D]ocument [S]ymbols")
-        nmap("<leader>ws", builtin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+        nmap("]e", goto_diag(true), "Next Error")
+        nmap("[e", goto_diag(false), "Prev Error")
+        nmap("<leader>e", vim.diagnostic.open_float, "Show Error")
 
-        -- See `:help K` for why this keymap
-        nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-        nmap("<leader>k", vim.lsp.buf.signature_help, "Signature Documentation")
+        -- info
+        nmap("K", vim.lsp.buf.hover, "Hover")
+        nmap("<leader>k", vim.lsp.buf.signature_help, "Signature Help")
 
-        -- Lesser used LSP functionality
-        nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
-        nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
-        nmap("<leader>wl", function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, "[W]orkspace [L]ist Folders")
+        -- extras
+        nmap("<leader>D", builtin.lsp_type_definitions, "Type Definition")
+        nmap("<leader>ds", builtin.lsp_document_symbols, "Document Symbols")
+        nmap("<leader>ws", builtin.lsp_dynamic_workspace_symbols, "Workspace Symbols")
       end
 
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
-        callback = on_attach,
+      -- 🔑 capabilities
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      local function setup(name, opts)
+        opts = opts or {}
+        opts.capabilities = capabilities
+        opts.on_attach = opts.on_attach or on_attach
+
+        vim.lsp.config(name, opts)
+        vim.lsp.enable(name)
+      end
+
+      -- ======================
+      -- SERVERS
+      -- ======================
+      setup("clangd")
+      setup("phpactor")
+      setup("cssls")
+      setup("cssmodules_ls")
+
+      -- LUA
+      setup("lua_ls", {
+        settings = {
+          Lua = {
+            runtime = { version = "LuaJIT" },
+            diagnostics = { globals = { "vim" } },
+            workspace = {
+              checkThirdParty = false,
+              library = vim.api.nvim_get_runtime_file("", true),
+            },
+          },
+        },
       })
 
-      -- Create a command `:Format` local to the LSP buffer
-      vim.api.nvim_create_user_command("Format", vim.lsp.buf.format, { desc = "Format current buffer with LSP" })
+      -- TYPESCRIPT
+      setup("ts_ls", {
+        on_attach = function(client, bufnr)
+          client.server_capabilities.documentFormattingProvider = false
+          on_attach(client, bufnr)
+        end,
+      })
 
-      vim.keymap.set("n", "<leader>,", vim.lsp.buf.format)
-
-      -- Setup mason so it can manage external tooling
-      require("mason").setup()
-
-      -- nvim-cmp supports additional completion capabilities
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "clangd",
-          "rust_analyzer",
-          "pyright",
-          "ts_ls",
-          "lua_ls",
-          "phpactor",
-          "tailwindcss",
-          "cssls",
-          "cssmodules_ls",
-        },
-        handlers = {
-          function(server_name)
-            local filetype_handlers = {
-              tailwindcss = { "html", "javascript", "typescript", "vue", "svelte" },
-              cssls = { "css", "scss", "less" },
-              cssmodules_ls = { "javascript", "typescript" },
-            }
-
-            local filetypes = filetype_handlers[server_name]
-            if filetypes then
-              local client = require("lspconfig")[server_name]
-              client.setup({
-                on_attach = function(client, bufnr)
-                  if vim.tbl_contains(filetypes, vim.bo[bufnr].filetype) then
-                    on_attach(client, bufnr)
-                  end
-                end,
-                capabilities = capabilities,
-              })
-            else
-              require("lspconfig")[server_name].setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-              })
+      -- PYTHON
+      setup("pyright", {
+        on_new_config = function(new_config, root_dir)
+          for _, venv in ipairs({ ".venv", "venv" }) do
+            local python = root_dir .. "/" .. venv .. "/bin/python"
+            if vim.fn.executable(python) == 1 then
+              new_config.settings = { python = { pythonPath = python } }
+              return
             end
-          end,
+          end
+          new_config.settings = {
+            python = { pythonPath = vim.fn.exepath("python3") or "python3" },
+          }
+        end,
+      })
 
-          ["lua_ls"] = function()
-            local lspconfig = require("lspconfig")
-            lspconfig.lua_ls.setup({
-              capabilities = capabilities,
-              settings = {
-                Lua = {
-                  runtime = { version = "LuaJIT" },
-                  diagnostics = { globals = { "vim" } },
-                  workspace = {
-                    checkThirdParty = false,
-                    library = {
-                      "${3rd}/luv/library",
-                      table.unpack(vim.api.nvim_get_runtime_file("", true)),
-                    },
-                  },
-                },
-              },
-            })
-          end,
-
-          ["ts_ls"] = function()
-            local lspconfig = require("lspconfig")
-            lspconfig.tsserver.setup({
-              go_to_source_definition = {
-                fallback = true, -- fall back to standard LSP definition on failure
-              },
-              server = { -- pass options to lspconfig's setup method
-                on_attach = function(client)
-                  client.server_capabilities.documentFormattingProvider = false
-                end,
-              },
-            })
-          end,
-
-          ["pyright"] = function()
-            local lspconfig = require("lspconfig")
-
-            lspconfig.pyright.setup({
-              capabilities = capabilities, -- use your own capabilities if you have them set elsewhere
-              on_new_config = function(new_config, root_dir)
-                local util = require("lspconfig.util")
-                local venv_paths = { ".venv", "venv" }
-                for _, venv in ipairs(venv_paths) do
-                  local python_bin = util.path.join(root_dir, venv, "bin", "python")
-                  if vim.fn.executable(python_bin) == 1 then
-                    new_config.settings = new_config.settings or {}
-                    new_config.settings.python = new_config.settings.python or {}
-                    new_config.settings.python.pythonPath = python_bin
-                    return
-                  end
-                end
-                -- fallback to system python
-                new_config.settings = new_config.settings or {}
-                new_config.settings.python = new_config.settings.python or {}
-                new_config.settings.python.pythonPath = vim.fn.exepath("python3") or "python3"
-              end,
-            })
-          end,
+      -- TAILWIND
+      setup("tailwindcss", {
+        filetypes = {
+          "html",
+          "css",
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact",
+          "vue",
+          "svelte",
+          "astro",
+        },
+        settings = {
+          tailwindCSS = {
+            includeLanguages = {
+              ["astro-markdown"] = "html",
+            },
+          },
         },
       })
     end,
   },
 
+  -- ======================
   -- CMP
-  ------
+  -- ======================
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -222,21 +187,24 @@ return {
           ["<C-e>"] = cmp.mapping.abort(),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<CR>"] = cmp.mapping.confirm(),
+
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
             else
               fallback()
             end
-          end, { "i", "s", "c" }),
+          end, { "i", "s" }),
+
           ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
             else
               fallback()
             end
-          end, { "i", "s", "c" }),
+          end, { "i", "s" }),
         }),
+
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
         }, {
@@ -245,7 +213,6 @@ return {
         }),
       })
 
-      -- Set configuration for specific filetype.
       cmp.setup.filetype("gitcommit", {
         sources = {
           { name = "cmp_git" },
@@ -253,68 +220,15 @@ return {
         },
       })
 
-      -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
       cmp.setup.cmdline({ "/", "?" }, {
-        mapping = cmp.mapping.preset.cmdline({
-          ["<down>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            else
-              fallback()
-            end
-          end, { "c" }),
-          ["<up>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            else
-              fallback()
-            end
-          end, { "c" }),
-        }),
+        mapping = cmp.mapping.preset.cmdline(),
         sources = {
           { name = "buffer" },
         },
       })
 
       cmp.setup.cmdline(":", {
-        completion = {
-          autocomplete = {
-            cmp.TriggerEvent.TextChanged,
-            cmp.TriggerEvent.InsertEnter,
-          },
-          completeopt = "menuone,noinsert,noselect",
-          keyword_length = 0,
-        },
-        mapping = cmp.mapping.preset.cmdline({
-          ["<Down>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            else
-              fallback()
-            end
-          end, { "c" }),
-          ["<C-j>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            else
-              fallback()
-            end
-          end, { "c" }),
-          ["<Up>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            else
-              fallback()
-            end
-          end, { "c" }),
-          ["<C-k>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            else
-              fallback()
-            end
-          end, { "c" }),
-        }),
+        mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
           { name = "path" },
         }, {

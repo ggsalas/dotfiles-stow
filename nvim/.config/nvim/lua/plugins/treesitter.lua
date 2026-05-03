@@ -9,15 +9,13 @@ return {
     },
     config = function()
       local config = require("nvim-treesitter.configs")
+      ---@diagnostic disable-next-line: missing-fields
       config.setup({
         -- Add languages to be installed here that you want installed for treesitter
         ensure_installed = {
-          "c",
-          "cpp",
           "go",
           "lua",
           "python",
-          "rust",
           "typescript",
           "javascript",
           "tsx",
@@ -26,8 +24,10 @@ return {
           "markdown_inline",
           "sql",
           "html",
-          "http",
+          "css",
+          "scss",
           "json",
+          "astro",
         },
         auto_install = true,
         highlight = { enable = true },
@@ -77,10 +77,6 @@ return {
           },
         },
       })
-
-      -- Diagnostic keymaps
-      vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
-      vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
     end,
   },
 }

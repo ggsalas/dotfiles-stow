@@ -30,6 +30,7 @@ return {
     --------------------
     local function statusline()
       -- save this function in global scope
+      ---@diagnostic disable-next-line: duplicate-set-field
       function vim.g.get_lsp_status()
         local clients = vim.lsp.get_clients({ bufnr = 0 })
         if #clients > 0 then
