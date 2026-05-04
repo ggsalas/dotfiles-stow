@@ -76,6 +76,13 @@ vim.api.nvim_create_autocmd("VimResized", {
   pattern = "*",
 })
 
+-- syntax colors
+vim.opt.syntax = "enable"
+
+-- cursor
+vim.opt.cursorline = true
+vim.opt.guicursor = "n-v-sm:block-Cursor,i-ci-ve:ver35-Cursor,c:ver100-Cursor,r-cr-o:hor20-Cursor,t:ver35-Cursor"
+
 -- vim ui2
 require("vim._core.ui2").enable({
   enable = true,

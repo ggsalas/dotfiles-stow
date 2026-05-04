@@ -1,11 +1,11 @@
 # Theme
-theme = "Flexoki Light"
+theme = dark:everforest-dark-medium, light:everforest-light-hard
 
 # Font
 font-family = "JetBrainsMono Nerd Font"
 font-size = 13
-font-style = Medium
 adjust-cell-height = 6
+font-thicken = true
 
 # Cursor
 cursor-style = bar
