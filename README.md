@@ -177,6 +177,7 @@ Leader key: `Space`
 | `<leader>tev` | vertical terminal split            |
 | `Ctrl+Esc`    | exit terminal mode                 |
 | `gq`          | close terminal buffer              |
+| `jk`          | leave insert mode                  |
 
 **Clipboard**
 
