@@ -3,7 +3,7 @@ return {
   ------------------------------------
   {
     "mfussenegger/nvim-dap",
-    event = 'VeryLazy',
+    event = "VeryLazy",
     config = function()
       local dap = require("dap")
 
@@ -34,21 +34,28 @@ return {
             type = "pwa-node",
             request = "attach",
             name = "Attach",
-            processId = require 'dap.utils'.pick_process,
+            processId = require("dap.utils").pick_process,
             cwd = "${workspaceFolder}",
-          }
+          },
         }
       end
 
-      vim.fn.sign_define('DapBreakpoint', { text = ' ', texthl = 'GitSignsAdd', linehl = '', numhl = '' })
-      vim.fn.sign_define('DapLogPoint', { text = ' ', texthl = 'GitSignsAdd', linehl = '', numhl = '' })
-      vim.fn.sign_define('DapBreakpointCondition', { text = ' ', texthl = 'GitSignsChange', linehl = '', numhl = '' })
-      vim.fn.sign_define('DapStopped', { text = ' ', texthl = 'GitSignsDelete', linehl = '', numhl = '' })
+      vim.fn.sign_define("DapBreakpoint", { text = " ", texthl = "GitSignsAdd", linehl = "", numhl = "" })
+      vim.fn.sign_define("DapLogPoint", { text = " ", texthl = "GitSignsAdd", linehl = "", numhl = "" })
+      vim.fn.sign_define(
+        "DapBreakpointCondition",
+        { text = " ", texthl = "GitSignsChange", linehl = "", numhl = "" }
+      )
+      vim.fn.sign_define("DapStopped", { text = " ", texthl = "GitSignsDelete", linehl = "", numhl = "" })
 
       -- Keymaps
-      vim.keymap.set("n", "<F5>", function() dap.continue() end)
-      vim.keymap.set("n", "<F10>", function() dap.step_over() end)
-    end
+      vim.keymap.set("n", "<F5>", function()
+        dap.continue()
+      end)
+      vim.keymap.set("n", "<F10>", function()
+        dap.step_over()
+      end)
+    end,
   },
 
   -- Mason DAP installer (depends on mason from lsp.lua)
@@ -61,22 +68,22 @@ return {
         ensure_installed = { "js-debug-adapter" },
         automatic_installation = true,
       })
-    end
+    end,
   },
 
   -- UI interface for debug
   -------------------------
   {
     "rcarriga/nvim-dap-ui",
-    event = 'VeryLazy',
+    event = "VeryLazy",
     dependencies = {
       "mfussenegger/nvim-dap",
-      "nvim-neotest/nvim-nio"
+      "nvim-neotest/nvim-nio",
     },
     config = function()
       local dap = require("dap")
       local dapui = require("dapui")
-      local dapui_widgets = require('dap.ui.widgets')
+      local dapui_widgets = require("dap.ui.widgets")
 
       dapui.setup({
         controls = {
@@ -91,39 +98,39 @@ return {
             step_into = "",
             step_out = "",
             run_last = "↻",
-            terminate = ""
-          }
+            terminate = "",
+          },
         },
         element_mappings = {},
         expand_lines = true,
         floating = {
           border = "single",
           mappings = {
-            close = { "q", "<Esc>" }
-          }
+            close = { "q", "<Esc>" },
+          },
         },
         force_buffers = true,
         icons = {
           collapsed = "▶",
           current_frame = "",
-          expanded = "▼"
+          expanded = "▼",
         },
         layouts = {
           {
             elements = {
               { id = "breakpoints", size = 0.30 },
-              { id = "watches",     size = 0.30 },
-              { id = "stacks",      size = 0.20 },
-              { id = "console",     size = 0.20 },
+              { id = "watches", size = 0.30 },
+              { id = "stacks", size = 0.20 },
+              { id = "console", size = 0.20 },
             },
             position = "right",
-            size = 50
+            size = 50,
           },
           {
             elements = { { id = "repl", size = 1 } },
             position = "bottom",
-            size = 10
-          }
+            size = 10,
+          },
         },
         mappings = {
           edit = "e",
@@ -131,34 +138,62 @@ return {
           open = "<CR>",
           remove = "d",
           repl = "r",
-          toggle = "t"
+          toggle = "t",
         },
         render = {
           indent = 1,
-          max_value_lines = 100
-        }
+          max_value_lines = 100,
+        },
       })
 
-      dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open({}) end
-      dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close({}) end
-      dap.listeners.before.event_exited["dapui_config"] = function() dapui.close({}) end
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        dapui.open({})
+      end
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        dapui.close({})
+      end
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        dapui.close({})
+      end
 
       -- mappings
-      vim.keymap.set('n', '<leader>de', require 'dapui'.toggle)
-      vim.keymap.set('n', '<leader>ded', dap.disconnect)
+      vim.keymap.set("n", "<leader>de", require("dapui").toggle)
+      vim.keymap.set("n", "<leader>ded", dap.disconnect)
 
-      vim.keymap.set('n', '<leader>dj', function() dap.continue() end)
-      vim.keymap.set('n', '<Leader>dh', function() dap.toggle_breakpoint() end)
-      vim.keymap.set('n', '<Leader>dH', function() dap.set_breakpoint(vim.fn.input('Condition: '), nil, nil) end)
-      vim.keymap.set({ 'v', 'n' }, '<leader>dk', function() dapui.eval(nil, { enter = true }) end)
-      vim.keymap.set({ 'n', 'v' }, '<Leader>dK', function() dapui_widgets.hover() end)
-      vim.keymap.set('n', '<Leader>dl', function() dap.run_last() end)
-      vim.keymap.set('n', '<Leader>d;', function() dapui_widgets.centered_float(widgets.scopes) end)
+      vim.keymap.set("n", "<leader>dj", function()
+        dap.continue()
+      end)
+      vim.keymap.set("n", "<Leader>dh", function()
+        dap.toggle_breakpoint()
+      end)
+      vim.keymap.set("n", "<Leader>dH", function()
+        dap.set_breakpoint(vim.fn.input("Condition: "), nil, nil)
+      end)
+      vim.keymap.set({ "v", "n" }, "<leader>dk", function()
+        dapui.eval(nil, { enter = true })
+      end)
+      vim.keymap.set({ "n", "v" }, "<Leader>dK", function()
+        dapui_widgets.hover()
+      end)
+      vim.keymap.set("n", "<Leader>dl", function()
+        dap.run_last()
+      end)
+      vim.keymap.set("n", "<Leader>d;", function()
+        dapui_widgets.centered_float(widgets.scopes)
+      end)
 
-      vim.keymap.set('n', '<leader>d<down>', function() dap.step_into() end)
-      vim.keymap.set('n', '<leader>d<up>', function() dap.step_out() end)
-      vim.keymap.set('n', '<leader>d<right>', function() dap.step_over() end)
-      vim.keymap.set('n', '<leader>d<left>', function() dap.step_back() end)
-    end
+      vim.keymap.set("n", "<leader>d<down>", function()
+        dap.step_into()
+      end)
+      vim.keymap.set("n", "<leader>d<up>", function()
+        dap.step_out()
+      end)
+      vim.keymap.set("n", "<leader>d<right>", function()
+        dap.step_over()
+      end)
+      vim.keymap.set("n", "<leader>d<left>", function()
+        dap.step_back()
+      end)
+    end,
   },
 }

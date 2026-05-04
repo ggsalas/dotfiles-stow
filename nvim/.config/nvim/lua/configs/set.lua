@@ -83,6 +83,9 @@ vim.opt.syntax = "enable"
 vim.opt.cursorline = true
 vim.opt.guicursor = "n-v-sm:block-Cursor,i-ci-ve:ver35-Cursor,c:ver100-Cursor,r-cr-o:hor20-Cursor,t:ver35-Cursor"
 
+-- windows have borders by default
+vim.o.winborder = "rounded"
+
 -- vim ui2
 require("vim._core.ui2").enable({
   enable = true,
@@ -94,6 +97,3 @@ require("vim._core.ui2").enable({
     cmd = { height = 0.5 },
   },
 })
-
--- windows have borders by default
-vim.o.winborder = "rounded"

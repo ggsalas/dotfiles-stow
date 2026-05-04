@@ -3,13 +3,13 @@ return {
   ---------------------
   "https://codeberg.org/andyg/leap.nvim",
   config = function()
-    local leap = require('leap')
+    local leap = require("leap")
 
-    leap.opts.labels = 'jhkl;fgdsauyiopmn,./rtewqvbcxz'
+    leap.opts.labels = "jhkl;fgdsauyiopmn,./rtewqvbcxz"
 
-    vim.keymap.set('n', 'f', '<Plug>(leap-forward-to)')
-    vim.keymap.set('n', 't', '<Plug>(leap-forward-till)')
-    vim.keymap.set('n', 'F', '<Plug>(leap-backward-to)')
-    vim.keymap.set('n', 'T', '<Plug>(leap-backward-ill)')
-  end
+    vim.keymap.set({ "n", "x", "o" }, "f", "<Plug>(leap)")
+    vim.keymap.set({ "n", "x", "o" }, "F", "<Plug>(leap-backward)")
+    vim.keymap.set({ "n", "x", "o" }, "t", "<Plug>(leap-forward-till)")
+    vim.keymap.set({ "n", "x", "o" }, "T", "<Plug>(leap-backward-till)")
+  end,
 }

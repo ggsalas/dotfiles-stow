@@ -64,29 +64,3 @@ vim.keymap.set("v", "K", ":m '<-2<cr>gv=gv")
 -- Replace word under cursor or selection
 vim.keymap.set("n", "<Leader>r", ":%s/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>")
 vim.keymap.set("v", "<Leader>r", 'y :%s/<C-r>"/<C-r><C-w>/gc<Left><Left><Left>')
-
-local function run_file(onSplit)
-  vim.cmd("write")
-
-  local ft = vim.bo.filetype
-  local cmd = nil
-  if ft == "javascript" then
-    cmd = "node " .. vim.fn.expand("%")
-  elseif ft == "python" then
-    cmd = "python3 " .. vim.fn.expand("%")
-  else
-    print("No run command defined for filetype: " .. ft)
-    return
-  end
-
-  if onSplit then
-    vim.cmd("split | terminal " .. cmd)
-  else
-    vim.cmd("! " .. cmd)
-  end
-end
-
--- vim.keymap.set("n", "<leader>.", run_file, { noremap = true })
-vim.keymap.set("n", "<leader>.", function()
-  run_file(true)
-end, { noremap = true })
