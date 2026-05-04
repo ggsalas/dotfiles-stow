@@ -94,3 +94,6 @@ require("vim._core.ui2").enable({
     cmd = { height = 0.5 },
   },
 })
+
+-- windows have borders by default
+vim.o.winborder = "rounded"

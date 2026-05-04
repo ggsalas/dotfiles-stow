@@ -3,11 +3,27 @@ return {
   -----------------------------------------------------
   {
     "nvim-treesitter/nvim-treesitter",
+    version = "*",
     build = ":TSUpdate",
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     config = function()
+      -- Fix nvim 0.12: nodes in match results can be non-nil but with missing
+      -- methods (e.g. `range`). Override the directive to guard against this.
+      local ts_query = require("vim.treesitter.query")
+      local aliases = { ex = "elixir", pl = "perl", sh = "bash", uxn = "uxntal", ts = "typescript" }
+      local function lang_from_info_string(alias)
+        return vim.filetype.match({ filename = "a." .. alias }) or aliases[alias] or alias
+      end
+      ts_query.add_directive("set-lang-from-info-string!", function(match, _, bufnr, pred, metadata)
+        local node = match[pred[2]]
+        if not node or not node.range then
+          return
+        end
+        metadata["injection.language"] = lang_from_info_string(vim.treesitter.get_node_text(node, bufnr):lower())
+      end, { force = true, all = false })
+
       local config = require("nvim-treesitter.configs")
       ---@diagnostic disable-next-line: missing-fields
       config.setup({
@@ -32,50 +48,6 @@ return {
         auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-            keymaps = {
-              -- You can use the capture groups defined in textobjects.scm
-              ["aa"] = "@parameter.outer",
-              ["ia"] = "@parameter.inner",
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
-            },
-          },
-          move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-              ["]m"] = "@function.outer",
-              ["]]"] = "@class.outer",
-            },
-            goto_next_end = {
-              ["]M"] = "@function.outer",
-              ["]["] = "@class.outer",
-            },
-            goto_previous_start = {
-              ["[m"] = "@function.outer",
-              ["[["] = "@class.outer",
-            },
-            goto_previous_end = {
-              ["[M"] = "@function.outer",
-              ["[]"] = "@class.outer",
-            },
-          },
-          swap = {
-            enable = true,
-            swap_next = {
-              ["<leader>a"] = "@parameter.inner",
-            },
-            swap_previous = {
-              ["<leader>A"] = "@parameter.inner",
-            },
-          },
-        },
       })
     end,
   },
