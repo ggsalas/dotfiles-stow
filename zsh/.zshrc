@@ -6,3 +6,5 @@ source ~/.config/zsh/aliases.zsh
 source ~/.config/zsh/bindings.zsh
 source ~/.config/zsh/plugins.zsh
 source ~/.config/zsh/prompt.zsh
+source ~/.config/zsh/git-worktree-tmux.zsh
+

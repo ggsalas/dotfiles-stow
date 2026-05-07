@@ -1,3 +1,12 @@
+# --- Completion system ---
+# Use cached compinit to avoid slow re-scan on every shell start
+autoload -Uz compinit
+if [ "$(find ~/.zcompdump -mtime +1 2>/dev/null)" ]; then
+  compinit
+else
+  compinit -C
+fi
+
 # require install with brew: brew install zoxide
 eval "$(zoxide init zsh --cmd cd)"
 

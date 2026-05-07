@@ -7,7 +7,10 @@ export LANG="en_US.UTF-8"
 export ANDROID_SDK_ROOT=~/Library/Android/sdk
 
 # opencode
-export PATH=/Users/ggsalas/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"
 
 # ollama to comunicate with opencode
 export LOCAL_ENDPOINT=http://localhost:11434
+
+# lm studio
+export PATH="$PATH:$HOME/.lmstudio/bin"

@@ -4,13 +4,13 @@ theme = dark:everforest-dark-medium, light:everforest-light-hard
 # Font
 font-family = "JetBrainsMono Nerd Font"
 font-size = 13
-adjust-cell-height = 6
+adjust-cell-height = 3
 font-thicken = true
 
 # Cursor
 cursor-style = bar
 cursor-style-blink = false
-adjust-cursor-thickness = 8
+adjust-cursor-thickness = 3
 
 # Window
 title = " "
