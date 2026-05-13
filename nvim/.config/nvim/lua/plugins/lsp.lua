@@ -19,6 +19,7 @@ return {
           "isort",
           "stylua",
           "eslint_d",
+          "prettierd",
 
           -- LSPs
           "clangd",

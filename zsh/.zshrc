@@ -8,3 +8,5 @@ source ~/.config/zsh/plugins.zsh
 source ~/.config/zsh/prompt.zsh
 source ~/.config/zsh/git-worktree-tmux.zsh
 
+# Config privada (si existe)
+[[ -f ~/.config/zsh/private.zsh ]] && source ~/.config/zsh/private.zsh
