@@ -3,9 +3,18 @@ function FoldStyle()
   local foldend = vim.v.foldend
   local line = vim.fn.getline(foldstart)
 
+  -- if fold starts with ``` (code block), show the second line instead
+  if line:match("^%s*```") then
+    line = vim.fn.getline(foldstart + 1)
+  end
+  -- if fold starts with ```# %% (Jupiter code block), show the second line instead
+  if line:match("^%s*# %%") then
+    line = vim.fn.getline(foldstart + 1)
+  end
+
   local tabstop = vim.bo.tabstop
   line = line:gsub("\t", string.rep(" ", tabstop))
-  line = line:sub(1, 30)
+  line = line:sub(1, 60)
 
   local nucolwidth = vim.wo.foldcolumn + (vim.wo.number and vim.wo.numberwidth or 0)
   local windowwidth = vim.fn.winwidth(0) - nucolwidth - 3
@@ -16,6 +25,11 @@ function FoldStyle()
 
   return line .. string.rep(".", fillchars) .. " " .. foldedlinecount .. " ▼ "
 end
+
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldtext = "v:lua.FoldStyle()"
+vim.opt.foldlevel = 99
 
 vim.api.nvim_create_user_command("FoldSyntax", function()
   vim.opt.foldmethod = "syntax"
@@ -37,10 +51,13 @@ vim.api.nvim_create_user_command("FoldDiff", function()
   vim.opt.foldlevel = 0
 end, {})
 
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldtext = "v:lua.FoldStyle()"
-vim.opt.foldlevel = 99
+local function setup_jupiter_folding()
+  vim.opt.foldmethod = "expr"
+  vim.opt.foldexpr = "getline(v:lnum)=~'^# %%' ? '>1' : getline(v:lnum-1)=~'^# %%' ? 1 : '='"
+  vim.opt.foldlevel = 0
+end
+
+vim.api.nvim_create_user_command("FoldJupiter", setup_jupiter_folding, {})
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
   callback = function()

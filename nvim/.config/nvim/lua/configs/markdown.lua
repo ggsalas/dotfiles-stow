@@ -1,11 +1,13 @@
 -- nvim_command- Set options for markdown files
+
 local break_lines = vim.api.nvim_create_augroup("break_lines", { clear = true })
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   pattern = { "*.md" },
   callback = function()
     if vim.api.nvim_buf_get_name(0):match("^fugitive://") == nil then
       vim.o.wrap = true
-      vim.o.conceallevel = 2
+      vim.o.conceallevel = 0
+      -- vim.o.conceallevel = 2
     end
   end,
   group = break_lines,

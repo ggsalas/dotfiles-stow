@@ -14,3 +14,6 @@ export LOCAL_ENDPOINT=http://localhost:11434
 
 # lm studio
 export PATH="$PATH:$HOME/.lmstudio/bin"
+
+# local bin
+export PATH="$HOME/.local/bin:$PATH"

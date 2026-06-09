@@ -2,6 +2,7 @@
 system "echo '📦 Setting up Essentials...'"
 brew "stow"
 brew "mise"
+brew "uv"
 
 # CLI Tools
 system "echo '🔧 Setting up CLI Tools...'"

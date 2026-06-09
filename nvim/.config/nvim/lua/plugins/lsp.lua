@@ -127,20 +127,28 @@ return {
       })
 
       -- PYTHON
-      setup("pyright", {
-        on_new_config = function(new_config, root_dir)
-          for _, venv in ipairs({ ".venv", "venv" }) do
-            local python = root_dir .. "/" .. venv .. "/bin/python"
-            if vim.fn.executable(python) == 1 then
-              new_config.settings = { python = { pythonPath = python } }
-              return
-            end
+      local function get_python_venv(root_dir)
+        for _, venv in ipairs({ ".venv", "venv" }) do
+          local python = root_dir .. "/" .. venv .. "/bin/python"
+          if vim.fn.executable(python) == 1 then
+            return { pythonPath = python, venvPath = root_dir, venv = venv }
           end
-          new_config.settings = {
-            python = { pythonPath = vim.fn.exepath("python3") or "python3" },
-          }
+        end
+        return { pythonPath = vim.fn.exepath("python3") or "python3" }
+      end
+
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client and client.name == "pyright" then
+            local python_settings = get_python_venv(client.root_dir)
+            client.settings = { python = python_settings }
+            client:notify("workspace/didChangeConfiguration", { settings = client.settings })
+          end
         end,
       })
+
+      setup("pyright")
 
       -- TAILWIND
       setup("tailwindcss", {

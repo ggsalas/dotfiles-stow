@@ -9,16 +9,21 @@ return {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     config = function()
-      -- Fix nvim 0.12: nodes in match results can be non-nil but with missing
-      -- methods (e.g. `range`). Override the directive to guard against this.
+      -- Fix nvim 0.12: match[id] now returns TSNode[] instead of TSNode.
+      -- Override the directive to extract the first node from the list.
       local ts_query = require("vim.treesitter.query")
       local aliases = { ex = "elixir", pl = "perl", sh = "bash", uxn = "uxntal", ts = "typescript" }
       local function lang_from_info_string(alias)
         return vim.filetype.match({ filename = "a." .. alias }) or aliases[alias] or alias
       end
       ts_query.add_directive("set-lang-from-info-string!", function(match, _, bufnr, pred, metadata)
-        local node = match[pred[2]]
-        if not node or not node.range then
+        local nodes = match[pred[2]]
+        if not nodes then
+          return
+        end
+        -- In Neovim 0.12+, match[id] returns TSNode[] instead of TSNode
+        local node = type(nodes) == "table" and nodes[1] or nodes
+        if not node then
           return
         end
         metadata["injection.language"] = lang_from_info_string(vim.treesitter.get_node_text(node, bufnr):lower())
@@ -48,6 +53,26 @@ return {
         auto_install = true,
         highlight = { enable = true },
         indent = { enable = true },
+        move = {
+          enable = true,
+          set_jumps = true, -- whether to set jumps in the jumplist
+          goto_next_start = {
+            ["]m"] = "@function.outer",
+            ["]]"] = "@class.inner",
+          },
+          goto_next_end = {
+            ["]M"] = "@function.outer",
+            ["]["] = "@class.outer",
+          },
+          goto_previous_start = {
+            ["[m"] = "@function.outer",
+            ["[["] = "@class.inner",
+          },
+          goto_previous_end = {
+            ["[M"] = "@function.outer",
+            ["[]"] = "@class.outer",
+          },
+        },
       })
     end,
   },
