@@ -88,10 +88,22 @@ return {
       -- auto-init kernel e importar outputs al abrir un .ipynb
       local imb = function(e)
         vim.schedule(function()
-          -- Detectar .venv en el directorio del archivo y activarlo para Molten/Jupyter
+          -- Buscar .venv recursivamente en directorios padres
+          local find_venv = function(start_path)
+            local path = start_path
+            while path ~= "/" and path ~= "" do
+              local venv = path .. "/.venv"
+              if vim.fn.isdirectory(venv) == 1 then
+                return venv
+              end
+              path = vim.fn.fnamemodify(path, ":h")
+            end
+            return nil
+          end
+
           local file_dir = vim.fn.fnamemodify(e.file, ":p:h")
-          local venv = file_dir .. "/.venv"
-          if vim.fn.isdirectory(venv) == 1 then
+          local venv = find_venv(file_dir)
+          if venv then
             vim.env.VIRTUAL_ENV = venv
             vim.env.PATH = venv .. "/bin:" .. vim.env.PATH
             vim.env.JUPYTER_PATH = venv .. "/share/jupyter"
