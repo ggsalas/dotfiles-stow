@@ -41,19 +41,19 @@ return {
       vim.g.molten_virt_lines_off_by_1 = true
     end,
     config = function()
-      -- keymaps para ejecutar celdas
+      -- keymaps
+      vim.keymap.set("n", "M", ":noautocmd MoltenEnterOutput<CR>", { desc = "open output window", silent = true })
+      vim.keymap.set("n", "<leader>mh", ":MoltenHideOutput<CR>", { desc = "close output window", silent = true })
+
       vim.keymap.set("n", "<leader>mm", ":MoltenReevaluateCell<CR>", { desc = "run cell", silent = true })
-      vim.keymap.set("n", "<leader>mA", ":MoltenReevaluateAll<CR>", { desc = "run all cells", silent = true })
-      vim.keymap.set("n", "<leader>ml", ":MoltenEvaluateLine<CR>", { desc = "run line", silent = true })
       vim.keymap.set(
         "v",
-        "<leader>mv",
+        "<leader>mm",
         ":<C-u>MoltenEvaluateVisual<CR>gv",
         { desc = "run visual range", silent = true }
       )
-
-      vim.keymap.set("n", "M", ":noautocmd MoltenEnterOutput<CR>", { desc = "open output window", silent = true })
-      vim.keymap.set("n", "<leader>mh", ":MoltenHideOutput<CR>", { desc = "close output window", silent = true })
+      vim.keymap.set("n", "<leader>mA", ":MoltenReevaluateAll<CR>", { desc = "run all cells", silent = true })
+      vim.keymap.set("n", "<leader>ml", ":MoltenEvaluateLine<CR>", { desc = "run line", silent = true })
       vim.keymap.set("n", "<leader>md", ":MoltenDelete<CR>", { desc = "delete Molten cell", silent = true })
       vim.keymap.set("n", "<leader>mD", ":%MoltenDelete<CR>", { desc = "delete all Molten outputs", silent = true })
 

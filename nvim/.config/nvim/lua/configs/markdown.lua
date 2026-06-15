@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     if vim.api.nvim_buf_get_name(0):match("^fugitive://") == nil then
       vim.o.wrap = true
       vim.o.conceallevel = 0
-      vim.o.conceallevel = 2
+      vim.o.conceallevel = 1
     end
   end,
   group = break_lines,
