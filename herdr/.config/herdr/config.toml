@@ -1,0 +1,41 @@
+[keys]
+prefix = "ctrl+space"
+
+previous_workspace = "ctrl+shift+p"
+next_workspace = "ctrl+shift+n"
+
+previous_agent = "ctrl+shift+["
+next_agent = "ctrl+shift+]"
+
+toggle_sidebar = "ctrl+shift+b"
+
+previous_tab = "ctrl+shift+i"
+next_tab = "ctrl+shift+o"
+
+focus_pane_left = "ctrl+shift+h"
+focus_pane_down = "ctrl+shift+j"
+focus_pane_up = "ctrl+shift+k"
+focus_pane_right = "ctrl+shift+l"
+switch_workspace = "prefix+shift+1..9"
+
+split_horizontal = "prefix+h"
+
+[ui]
+sidebar_collapsed_mode = "hidden"
+tab_bar_position = "bottom"
+
+agent_panel_sort = "spaces"
+status_indicators = "dots"
+
+show_agent_labels_on_pane_borders = false
+[theme]
+name = "terminal"
+auto_switch = true
+light_name = "gruvbox-light"
+dark_name = "gruvbox"
+
+[theme.custom]
+panel_bg = "reset"
+
+[ui.toast]
+delivery = "system"

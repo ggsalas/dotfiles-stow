@@ -13,7 +13,7 @@ cursor-style-blink = false
 adjust-cursor-thickness = 3
 
 # Window
-title = " "
+# title = " "
 macos-titlebar-style = transparent
 macos-titlebar-proxy-icon = hidden
 background-opacity = 1
