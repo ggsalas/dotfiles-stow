@@ -19,6 +19,7 @@ brew "delta"
 brew "ripgrep"
 brew "posting"
 brew "opencode"
+brew "tailscale"
 
 # Dev Tools
 system "echo '🛠️ Setting up Dev Tools...'"

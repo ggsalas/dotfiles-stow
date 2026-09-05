@@ -87,6 +87,27 @@ tmux attach || tmux new -s Work  # attach or create session (alias: t)
 | `Ctrl+S+Z`       | zoom pane                     |
 | `Ctrl+Z`         | background/foreground process |
 
+### herdr — agent multiplexer
+
+Prefix key: `Ctrl+Space`
+
+Herdr is a terminal multiplexer for AI agents. Agents run on a background server that survives closing the laptop lid; `herdr` attaches or resumes the session.
+
+```sh
+herdr  # launch or attach to the persistent session
+```
+
+| Key                  | Action                        |
+| -------------------- | ----------------------------- |
+| `prefix + h`         | split pane horizontal         |
+| `prefix + shift+1-9` | switch workspace              |
+| `Ctrl+Shift+P/N`     | previous/next workspace       |
+| `Ctrl+Shift+[/]`     | previous/next agent           |
+| `Ctrl+Shift+I/O`     | previous/next tab             |
+| `Ctrl+Shift+H/J/K/L` | focus pane left/down/up/right |
+| `Ctrl+Shift+Z`       | zoom pane                     |
+| `Ctrl+Shift+;`       | toggle sidebar                |
+
 ### zoxide — smarter cd
 
 Configured so all `cd` commands use zoxide ranking automatically. Just use `cd` as usual.

@@ -6,10 +6,7 @@ return {
     build = "mise exec python -- pip install jupytext",
     config = function()
       require("jupytext").setup({
-        style = "hydrogen",
-        output_extension = "auto", -- Default extension.
-        force_ft = nil, -- Default filetype.
-        custom_language_formatting = {},
+        format = "auto:hydrogen", -- Hydrogen cells (# %%) con extensión según el lenguaje
       })
 
       -- Borrar archivos .py generados por jupytext al cerrar el buffer

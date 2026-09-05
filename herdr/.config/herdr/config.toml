@@ -7,7 +7,8 @@ next_workspace = "ctrl+shift+n"
 previous_agent = "ctrl+shift+["
 next_agent = "ctrl+shift+]"
 
-toggle_sidebar = "ctrl+shift+b"
+toggle_sidebar = "ctrl+shift+;"
+zoom = "ctrl+shift+z"
 
 previous_tab = "ctrl+shift+i"
 next_tab = "ctrl+shift+o"
@@ -21,7 +22,7 @@ switch_workspace = "prefix+shift+1..9"
 split_horizontal = "prefix+h"
 
 [ui]
-sidebar_collapsed_mode = "hidden"
+sidebar_collapsed_mode = "compact"
 tab_bar_position = "bottom"
 
 agent_panel_sort = "spaces"

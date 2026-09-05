@@ -14,8 +14,8 @@ adjust-cursor-thickness = 3
 
 # Window
 # title = " "
-macos-titlebar-style = transparent
+macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = hidden
 background-opacity = 1
-window-padding-x = 14
-window-padding-y = 6
+window-padding-x = 12
+window-padding-y = 8
