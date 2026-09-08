@@ -150,7 +150,7 @@ return {
       local search_notes = function()
         builtin.find_files({
           prompt_title = "Notes",
-          cwd = "~/notes",
+          cwd = "~/Notes",
           disable_devicons = true,
         })
       end
