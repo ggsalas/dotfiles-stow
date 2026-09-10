@@ -1,34 +1,71 @@
+onboarding = false
 [keys]
 prefix = "ctrl+space"
 
+# Workspaces
+new_workspace = "prefix+shift+c"
+rename_workspace = "prefix+shift+r"
+close_workspace = "prefix+shift+k"
 previous_workspace = "ctrl+shift+p"
 next_workspace = "ctrl+shift+n"
+switch_workspace = "prefix+shift+1..9"
 
+# Agents
 previous_agent = "ctrl+shift+["
 next_agent = "ctrl+shift+]"
 
-toggle_sidebar = "ctrl+shift+;"
-zoom = "ctrl+shift+z"
-
+# Tabs
 previous_tab = "ctrl+shift+i"
 next_tab = "ctrl+shift+o"
 
+# Panes
 focus_pane_left = "ctrl+shift+h"
 focus_pane_down = "ctrl+shift+j"
 focus_pane_up = "ctrl+shift+k"
 focus_pane_right = "ctrl+shift+l"
-switch_workspace = "prefix+shift+1..9"
-
 split_horizontal = "prefix+h"
 
+# Config and help
+reload_config = "prefix+q"
+help = "prefix+?"
+detach = "prefix+d"
+
+# Miscellaneous
+copy_mode = "prefix+["
+toggle_sidebar = "ctrl+shift+;"
+zoom = "ctrl+shift+z"
+
+[terminal]
+# Matches -c "#{pane_current_path}" on every split, window, and session
+new_cwd = "follow"
+
 [ui]
+accent = "blue"
 sidebar_collapsed_mode = "compact"
 tab_bar_position = "bottom"
-
 agent_panel_sort = "spaces"
 status_indicators = "dots"
-
 show_agent_labels_on_pane_borders = false
+
+# tmux drew single-line dividers between adjacent panes and no outer frame
+pane_gaps = false
+pane_outer_borders = false
+
+# tmux had no scrollbar column beside its panes
+pane_scrollbars = false
+
+# kill-window and kill-session never asked
+confirm_close = false
+
+# automatic-rename gave windows a name without prompting
+prompt_new_tab_name = false
+
+# set -g mouse on
+mouse_capture = true
+
+# status-right had the zoom flag followed by #h
+tab_bar_right = [{ type = "zoom" }, { type = "hostname" }]
+
 [theme]
 name = "terminal"
 auto_switch = true

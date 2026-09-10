@@ -1,5 +1,6 @@
 # Theme
 theme = dark:everforest-dark-medium, light:everforest-light-hard
+window-theme = auto
 
 # Font
 font-family = "JetBrainsMono Nerd Font"
