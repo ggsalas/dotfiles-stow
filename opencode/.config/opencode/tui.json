@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "theme": "system",
+  "plugin": ["./herdr-tui-session.js"],
+  "keybinds": {
+    "leader": "ctrl+a",
+    "model_provider_list": "none",
+    "theme_list": "none",
+    "theme_switch_mode": "<leader>t"
+  }
+}

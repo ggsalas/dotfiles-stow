@@ -50,6 +50,7 @@ cask "the-unarchiver"
 cask "simplenote"
 cask "obs"
 brew "imagemagick"
+cask "openusage"
 
 # Media & Graphics
 system "echo '🎨 Setting up Media & Graphics...'"
