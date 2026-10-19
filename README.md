@@ -27,7 +27,7 @@ brew install stow
 ```sh
 git clone https://github.com/ggsalas/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-stow ghostty git karabiner mise nvim tmux zsh
+stow ghostty git herdr karabiner mise nvim tmux zsh
 ```
 
 `stow .` creates symlinks from each config folder into `$HOME`, based on the `.stowrc` target setting.
