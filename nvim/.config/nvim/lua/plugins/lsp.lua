@@ -30,6 +30,7 @@ return {
           "tailwindcss-language-server",
           "css-lsp",
           "cssmodules-language-server",
+          "astro-language-server",
         },
       })
     end,
@@ -103,6 +104,7 @@ return {
       setup("phpactor")
       setup("cssls")
       setup("cssmodules_ls")
+      setup("astro")
 
       -- LUA
       setup("lua_ls", {

@@ -5,7 +5,7 @@ return {
     suggestion = {
       enabled = true,
       auto_trigger = true,
-      debounce = 15,
+      debounce = 5,
       keymap = {
         accept = "<C-y>",
         next = "<C-.>",
