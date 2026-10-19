@@ -1,0 +1,19 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "theme": {
+    "name": "everforest-ghostty",
+    "mode": "system"
+  },
+  "keybinds": {
+    "leader": "ctrl+a",
+    "theme.switch": "none",
+    "theme.switch_mode": "<leader>t",
+    "model.dialog.provider": "none",
+    "terminal.toggle": "<leader>z"
+  },
+  "plugins": ["./herdr-tui-session.js", "./herdr-opencode"],
+  "animations": false,
+  "session": {
+    "sidebar": "hide"
+  }
+}
