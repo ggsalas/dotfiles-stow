@@ -1,3 +1,4 @@
 .DS_Store
 karabiner/.config/karabiner/automatic_backups/
 **/private.zsh
+.playwright-mcp

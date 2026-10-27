@@ -1,0 +1,18 @@
+[window]
+padding = { x = 12, y = 8 }
+opacity = 1.0
+decorations = "Buttonless"
+
+[font]
+size = 13
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Medium"
+
+[cursor]
+style = { shape = "Beam", blinking = "Off" }
+
+# Alacritty watches imported config files and applies changes automatically.
+[general]
+import = ["~/.config/alacritty/theme.toml"]

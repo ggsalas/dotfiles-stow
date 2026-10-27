@@ -1,0 +1,61 @@
+#!/bin/sh
+set -eu
+
+label='com.user.alacritty-dark-notify'
+plist="$HOME/Library/LaunchAgents/$label.plist"
+domain="gui/$(id -u)"
+
+usage() {
+  echo "Usage: setRunAtLoad [remove]" >&2
+  exit 2
+}
+
+if [ "$#" -gt 1 ]; then
+  usage
+fi
+
+action=${1:-install}
+case "$action" in
+  install) ;;
+  remove) ;;
+  *) usage ;;
+esac
+
+if [ "$action" = remove ]; then
+  launchctl bootout "$domain/$label" 2>/dev/null || true
+  rm -f "$plist"
+  exit 0
+fi
+
+mkdir -p "$(dirname "$plist")"
+temporary=$(mktemp "$(dirname "$plist")/$label.XXXXXX")
+trap 'rm -f "$temporary"' EXIT HUP INT TERM
+cat > "$temporary" <<'PLIST'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.user.alacritty-dark-notify</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/sh</string>
+    <string>-c</string>
+    <string>exec "$HOME/.config/alacritty/dark-notify"</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardErrorPath</key>
+  <string>/tmp/alacritty-dark-notify.err</string>
+</dict>
+</plist>
+PLIST
+plutil -lint "$temporary" >/dev/null
+
+# Unload first so reruns replace the loaded definition with the generated one.
+launchctl bootout "$domain/$label" 2>/dev/null || true
+mv -f "$temporary" "$plist"
+trap - EXIT HUP INT TERM
+launchctl bootstrap "$domain" "$plist"

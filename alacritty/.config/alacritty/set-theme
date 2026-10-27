@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+
+case "$(defaults read -g AppleInterfaceStyle 2>/dev/null || printf 'Light')" in
+  Dark) theme=everforest-dark-medium ;;
+  *) theme=everforest-light-hard ;;
+esac
+
+config_dir="$HOME/.config/alacritty"
+theme_link="$config_dir/theme.toml"
+theme_file="$config_dir/themes/$theme.toml"
+
+if [ -L "$theme_link" ] && [ "$(readlink "$theme_link")" = "$theme_file" ]; then
+  exit 0
+fi
+
+ln -sf "$theme_file" "$theme_link"
+touch "$config_dir/alacritty.toml"

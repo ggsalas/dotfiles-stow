@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+# LaunchAgents do not inherit Homebrew's shell environment.
+for candidate in /opt/homebrew/bin/dark-notify /usr/local/bin/dark-notify; do
+  if [ -x "$candidate" ]; then
+    exec "$candidate" -c "$HOME/.config/alacritty/set-theme"
+  fi
+done
+
+echo "dark-notify not found; install cormacrelf/tap/dark-notify with Homebrew" >&2
+exit 127
