@@ -2,6 +2,12 @@ return {
   {
     "racakenon/vscode-unicode-highlight.nvim",
     config = function()
+      -- The plugin's debounced scan (vim.defer_fn) doesn't check buffer validity, so
+      -- closing a buffer right after writing (e.g. :wq on COMMIT_EDITMSG) raises
+      -- "Invalid buffer id". Scanning synchronously avoids the stale callback.
+      -- The plugin's module is literally named "init" and auto-setups on load.
+      require("init").setup({ debounce_ms = 0 })
+
       -- Ghostty gives U+2028/U+2029 width 0; Neovim gives them width 1. Draw an
       -- overlay over just these cells so the raw codepoint is never sent to the
       -- terminal (buffer bytes stay unchanged; works with conceallevel=0).
