@@ -150,7 +150,7 @@ return {
       local search_notes = function()
         builtin.find_files({
           prompt_title = "Notes",
-          cwd = "~/Notes",
+          cwd = "~/Google Drive/My Drive/Notas",
           disable_devicons = true,
         })
       end

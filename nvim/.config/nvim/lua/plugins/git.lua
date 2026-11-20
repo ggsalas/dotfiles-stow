@@ -11,6 +11,23 @@ return {
     "tpope/vim-rhubarb",
   },
 
+  --[[ require neovim 0.13 {
+    "justinmk/guh.nvim",
+    -- Local fork for development (branch fix/viewed-renamed-files). Remove `dir` to go back to upstream.
+    dir = "~/dev/guh.nvim",
+    config = function()
+      -- Readable file headers ("diff --git ...") in guh prdiff buffers.
+      -- guh links GuhDiffFile to PmenuSel by default, which is hard to read with everforest.
+      -- Link to FloatTitle (bold light text on a neutral background, unlike the diff add/change/delete
+      -- backgrounds) so file headers stand out, and follow the colorscheme.
+      local function set_guh_hl()
+        vim.api.nvim_set_hl(0, "GuhDiffFile", { link = "FloatTitle" })
+      end
+      set_guh_hl()
+      vim.api.nvim_create_autocmd("ColorScheme", { callback = set_guh_hl })
+    end,
+  }, ]]
+
   -- GDiffBranch: compare current branch against another branch using quickfix + fugitive
   -- Usage: :GDiffBranch [branch]  (defaults to main or master)
   -- Keymap: <leader>gd

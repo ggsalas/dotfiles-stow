@@ -9,6 +9,7 @@ close_workspace = "prefix+shift+k"
 previous_workspace = "ctrl+shift+p"
 next_workspace = "ctrl+shift+n"
 switch_workspace = "prefix+shift+1..9"
+goto = ["prefix+g"]
 
 # Agents
 previous_agent = "ctrl+shift+["
@@ -35,13 +36,31 @@ copy_mode = "prefix+["
 toggle_sidebar = "ctrl+shift+;"
 zoom = "ctrl+shift+z"
 
+# Space picker popup: n/p move, / filter, enter go, esc cancel
+[[keys.command]]
+key = "prefix+j"
+type = "popup"
+command = "~/.config/herdr/scripts/workspace-picker.sh"
+description = "pick a space"
+width = "50%"
+height = "50%"
+
+# Agent picker popup (all spaces): n/p move, / filter, enter go, esc cancel
+[[keys.command]]
+key = "prefix+k"
+type = "popup"
+command = "~/.config/herdr/scripts/agent-picker.sh"
+description = "pick an agent"
+width = "70%"
+height = "50%"
+
 [terminal]
 # Matches -c "#{pane_current_path}" on every split, window, and session
 new_cwd = "follow"
 
 [ui]
 accent = "blue"
-sidebar_collapsed_mode = "compact"
+sidebar_collapsed_mode = "hidden"
 tab_bar_position = "bottom"
 agent_panel_sort = "spaces"
 status_indicators = "dots"
@@ -64,13 +83,17 @@ prompt_new_tab_name = false
 mouse_capture = true
 
 # status-right had the zoom flag followed by #h
-tab_bar_right = [{ type = "zoom" }, { type = "hostname" }]
+# Current workspace (useful with the sidebar hidden). Absolute paths because
+# command entries run on the Herdr server, whose PATH may not include Homebrew.
+tab_bar_right = [
+  { type = "zoom" },
+  # "[workspace] - host" or "[workspace]: repo - host" for worktrees
+  { type = "command", command = "~/.config/herdr/scripts/workspace-status.sh", interval_seconds = 1, timeout_seconds = 2 },
+]
 
 [theme]
+# Use the terminal's own palette (Ghostty's Everforest, light/dark follows it)
 name = "terminal"
-auto_switch = true
-light_name = "gruvbox-light"
-dark_name = "gruvbox"
 
 [theme.custom]
 panel_bg = "reset"

@@ -87,13 +87,14 @@ vim.opt.guicursor = "n-v-sm:block-Cursor,i-ci-ve:ver35-Cursor,c:ver100-Cursor,r-
 vim.o.winborder = "rounded"
 
 -- vim ui2
+-- timeout (ms in msg window) and maxheight (% of 'lines' for cmdline) live in 'messagesopt' now
+vim.opt.messagesopt = "hit-enter,history:500,progress:c,timeout:4500,maxheight:50,pager:<CR>"
 require("vim._core.ui2").enable({
   enable = true,
   msg = {
-    target = "cmd", -- options: cmd(classic), msg(similar to noice)
-    pager = { height = 1 },
-    msg = { height = 0.5, timeout = 4500 },
+    targets = "cmd", -- options: cmd(classic), msg(similar to noice)
+    pager = { height = 0.5 },
+    msg = { height = 0.5 },
     dialog = { height = 0.5 },
-    cmd = { height = 0.5 },
   },
 })

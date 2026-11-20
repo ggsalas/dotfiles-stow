@@ -1,5 +1,6 @@
 # Theme
-theme = dark:everforest-dark-medium, light:everforest-light-hard
+# Everforest hard, same palette as Neovim (everforest_background = "hard")
+theme = dark:everforest-dark-hard, light:everforest-light-hard
 window-theme = auto
 
 # Font

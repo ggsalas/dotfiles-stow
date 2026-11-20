@@ -11,5 +11,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Disable Nvim's builtin directory browser (0.13+); it sets 'nomodifiable' on dir buffers and breaks dirvish
+vim.g.loaded_nvim_dir_plugin = 1
+
 require("configs")
 require("lazy").setup("plugins")

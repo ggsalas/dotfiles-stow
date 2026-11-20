@@ -1,4 +1,17 @@
 return {
+  {
+    -- Treesitter-powered Diff Syntax highlighting
+    "barrettruth/diffs.nvim",
+  },
+
+  -- Improve viewing Markdown
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
+  },
+
   -- treesitter (support textobjects, required for jsx)
   -----------------------------------------------------
   {

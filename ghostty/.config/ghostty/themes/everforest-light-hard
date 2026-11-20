@@ -1,27 +1,34 @@
-# Everforest light hard theme for Ghostty
-# https://everforest.vercel.app/
-
-## name: everforest-light-hard
+# Everforest light hard for Ghostty, matching Neovim's
+# sainnhe/everforest with everforest_background = "hard" (same bg/fg/accents).
+# Contrast tweaks vs upstream terminal colors (target >= 3.5:1 accents, >= 3:1 gray/white):
+#   color 8 (gray) uses grey text instead of bg3, so dim text stays readable
+#   red #f85552->#eb504d
+#   green #8da101->#7c8d00
+#   yellow #dfa000->#ad7c00
+#   blue #3a94c5->#378ebd
+#   purple #df69ba->#ca5fa9
+#   aqua #35a77c->#309770
+#   white #a6b0a0->#8b9386
 
 palette = 0=#5c6a72
-palette = 1=#f85552
-palette = 2=#8da101
-palette = 3=#dfa000
-palette = 4=#3a94c5
-palette = 5=#df69ba
-palette = 6=#35a77c
-palette = 7=#dfddc8
-palette = 8=#5c6a72
-palette = 9=#f85552
-palette = 10=#8da101
-palette = 11=#dfa000
-palette = 12=#3a94c5
-palette = 13=#df69ba
-palette = 14=#35a77c
-palette = 15=#dfddc8
+palette = 1=#eb504d
+palette = 2=#7c8d00
+palette = 3=#ad7c00
+palette = 4=#378ebd
+palette = 5=#ca5fa9
+palette = 6=#309770
+palette = 7=#8b9386
+palette = 8=#829181
+palette = 9=#eb504d
+palette = 10=#7c8d00
+palette = 11=#ad7c00
+palette = 12=#378ebd
+palette = 13=#ca5fa9
+palette = 14=#309770
+palette = 15=#8b9386
 
-background=#fff9e8
-foreground=#5c6a72
-cursor-color=#df69ba
-selection-foreground=#fff9e8
-selection-background=#5c6a72
+background = #fffbef
+foreground = #5c6a72
+cursor-color = #df69ba
+selection-background = #f0f2d4
+selection-foreground = #5c6a72
