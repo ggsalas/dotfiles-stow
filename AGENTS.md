@@ -11,7 +11,7 @@ into `~/.config/herdr-app/`, which stays a real folder where Herdr keeps its sta
 Herdr doesn't see changes behind symlinks. `settings.json`, `keys.json` and layouts apply on their
 own in ~10 s; **mods don't**. After editing a mod, reload with:
 
-```sh
+```sh 
 herdr-app do layout.switch --name win98 && sleep 1 && herdr-app do layout.switch --name everforest-zen
 ```
 

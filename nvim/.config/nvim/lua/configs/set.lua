@@ -88,13 +88,26 @@ vim.o.winborder = "rounded"
 
 -- vim ui2
 -- timeout (ms in msg window) and maxheight (% of 'lines' for cmdline) live in 'messagesopt' now
-vim.opt.messagesopt = "hit-enter,history:500,progress:c,timeout:4500,maxheight:50,pager:<CR>"
-require("vim._core.ui2").enable({
-  enable = true,
-  msg = {
-    targets = "cmd", -- options: cmd(classic), msg(similar to noice)
-    pager = { height = 0.5 },
-    msg = { height = 0.5 },
-    dialog = { height = 0.5 },
-  },
-})
+-- Prerelease accepts the full value; stable (0.12) rejects timeout/maxheight/pager,
+-- so fall back to a compatible one.
+local ok = pcall(function()
+  vim.o.messagesopt = "hit-enter,history:500,progress:c,timeout:4500,maxheight:50,pager:<CR>"
+end)
+if not ok then
+  pcall(function()
+    vim.o.messagesopt = "hit-enter,history:500"
+  end)
+end
+
+local ui2_ok, ui2 = pcall(require, "vim._core.ui2")
+if ui2_ok then
+  pcall(ui2.enable, {
+    enable = true,
+    msg = {
+      targets = "cmd", -- options: cmd(classic), msg(similar to noice)
+      pager = { height = 0.5 },
+      msg = { height = 0.5 },
+      dialog = { height = 0.5 },
+    },
+  })
+end

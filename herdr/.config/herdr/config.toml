@@ -49,7 +49,7 @@ focus_pane_up = "ctrl+shift+k"
 focus_pane_right = "ctrl+shift+l"
 split_horizontal = "prefix+h"
 split_vertical = "prefix+v"
-close_pane = "prefix+x",
+close_pane = "prefix+x"
 zoom = ["prefix+z", "ctrl+shift+z"]
 
 # Config and help
@@ -60,7 +60,6 @@ detach = "prefix+d"
 # Miscellaneous
 copy_mode = "prefix+["
 toggle_sidebar = "ctrl+shift+;"
-zoom = "ctrl+shift+z"
 
 # Machine menu popup: add (authorizes your SSH key first), copy SSH key,
 # reconnect, status, remove
