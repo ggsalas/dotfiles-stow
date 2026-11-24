@@ -1,4 +1,19 @@
 onboarding = false
+
+[theme]
+# Use the terminal's own palette (Ghostty's Everforest, light/dark follows it)
+name = "terminal"
+
+[theme.custom]
+# The active tab is drawn as panel_bg text on an accent background, so panel_bg
+# has to be dark for it to read - same colors as status-left's "#[fg=black,bg=blue]"
+panel_bg = "reset"
+surface_dim = "black"
+
+[terminal]
+# Matches -c "#{pane_current_path}" on every split, window, and session
+new_cwd = "follow"
+
 [keys]
 prefix = "ctrl+space"
 
@@ -33,6 +48,9 @@ focus_pane_down = "ctrl+shift+j"
 focus_pane_up = "ctrl+shift+k"
 focus_pane_right = "ctrl+shift+l"
 split_horizontal = "prefix+h"
+split_vertical = "prefix+v"
+close_pane = "prefix+x",
+zoom = ["prefix+z", "ctrl+shift+z"]
 
 # Config and help
 reload_config = "prefix+q"
@@ -53,10 +71,6 @@ command = "~/.config/herdr/scripts/machine-menu.sh"
 description = "manage machines"
 width = "60%"
 height = "50%"
-
-[terminal]
-# Matches -c "#{pane_current_path}" on every split, window, and session
-new_cwd = "follow"
 
 [ui]
 accent = "blue"
@@ -91,12 +105,22 @@ tab_bar_right = [
   { type = "command", command = "~/.config/herdr/scripts/workspace-status.sh", interval_seconds = 1, timeout_seconds = 2 },
 ]
 
-[theme]
-# Use the terminal's own palette (Ghostty's Everforest, light/dark follows it)
-name = "terminal"
-
-[theme.custom]
-panel_bg = "reset"
+# set -g set-titles on / set -g set-titles-string '#h:#W', where tmux's #W was
+# the basename of the pane cwd. This is what Hyprland shows in the group bar,
+# and it resolves on the server so remote sessions name the remote host.
+window_title = "{hostname}: {workspace}"
 
 [ui.toast]
 delivery = "terminal"
+
+# Toggle the theme: Everforest Light Hard <-> Everforest.
+# Custom commands run on the herdr server that owns the view, with that
+# server's config, so from the Mac (viewing this machine) prefix+t changes
+# this machine's theme. Use it to match the Mac's light/dark appearance:
+# Neovim here paints with this machine's Omarchy theme, not the Mac's.
+# Log: ~/.local/state/omarchy/theme-toggle.log
+[[keys.command]]
+key = "prefix+t"
+type = "shell"
+command = "~/.config/herdr/scripts/theme-toggle.sh"
+description = "toggle light/dark theme"
