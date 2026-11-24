@@ -6,10 +6,15 @@ prefix = "ctrl+space"
 new_workspace = "prefix+shift+c"
 rename_workspace = "prefix+shift+r"
 close_workspace = "prefix+shift+k"
-previous_workspace = "ctrl+shift+p"
-next_workspace = "ctrl+shift+n"
 switch_workspace = "prefix+shift+1..9"
 goto = ["prefix+g"]
+
+# Navigate mode (workspace navigator, see prefix+j): j/k or arrows move between
+# workspaces; panes keep ctrl+shift+j/k like outside it
+navigate_workspace_down = ["down", "j"]
+navigate_workspace_up = ["up", "k"]
+navigate_pane_down = "ctrl+shift+j"
+navigate_pane_up = "ctrl+shift+k"
 
 # Agents
 previous_agent = "ctrl+shift+["
@@ -36,9 +41,32 @@ copy_mode = "prefix+["
 toggle_sidebar = "ctrl+shift+;"
 zoom = "ctrl+shift+z"
 
-# Space picker popup: n/p move, / filter, enter go, esc cancel
+# Native workspace navigator (all machines) with the sidebar shown only while
+# picking: j/k move, enter go, esc cancel. Types keys with osascript, so it
+# relies on toggle_sidebar and the default workspace_picker (prefix+w).
 [[keys.command]]
 key = "prefix+j"
+type = "shell"
+command = "~/.config/herdr/scripts/sidebar-picker.sh"
+description = "pick a space in the sidebar"
+
+# Workspace history (plugins/workspace-history): back and forward through the
+# recently focused workspaces, like a browser
+[[keys.command]]
+key = "ctrl+shift+p"
+type = "plugin_action"
+command = "ggsalas.workspace-history.back"
+description = "previous workspace in history"
+
+[[keys.command]]
+key = "ctrl+shift+n"
+type = "plugin_action"
+command = "ggsalas.workspace-history.forward"
+description = "next workspace in history"
+
+# Space picker popup: n/p move, / filter, enter go, esc cancel
+[[keys.command]]
+key = "prefix+shift+j"
 type = "popup"
 command = "~/.config/herdr/scripts/workspace-picker.sh"
 description = "pick a space"
@@ -52,6 +80,16 @@ type = "popup"
 command = "~/.config/herdr/scripts/agent-picker.sh"
 description = "pick an agent"
 width = "70%"
+height = "50%"
+
+# Machine menu popup: add (authorizes your SSH key first), copy SSH key,
+# reconnect, status, remove
+[[keys.command]]
+key = "prefix+m"
+type = "popup"
+command = "~/.config/herdr/scripts/machine-menu.sh"
+description = "manage machines"
+width = "60%"
 height = "50%"
 
 [terminal]

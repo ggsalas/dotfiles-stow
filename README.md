@@ -27,7 +27,7 @@ brew install stow
 ```sh
 git clone https://github.com/ggsalas/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-stow ghostty git herdr karabiner mise nvim tmux zsh
+stow ghostty git herdr herdr-app karabiner mise nvim tmux zsh
 ```
 
 `stow .` creates symlinks from each config folder into `$HOME`, based on the `.stowrc` target setting.
@@ -107,6 +107,26 @@ herdr  # launch or attach to the persistent session
 | `Ctrl+Shift+H/J/K/L` | focus pane left/down/up/right |
 | `Ctrl+Shift+Z`       | zoom pane                     |
 | `Ctrl+Shift+;`       | toggle sidebar                |
+
+### herdr-app — Herdr desktop app
+
+Prefix key: `Ctrl+Space`. Config: `herdr-app/.config/herdr-app/` (stowed; only `keys.json`, `settings.json`, `layouts/`, `mods/`, `themes/`). Layout: `everforest-zen`, themes from Ghostty's Everforest. After editing a mod run `herdr-app-reload`; settings, keys and layouts apply on their own in ~10 s (see `AGENTS.md`).
+
+| Key                  | Action                                           |
+| -------------------- | ------------------------------------------------ |
+| `prefix + j`         | go to space (`prefix + g/w` and `Cmd+P` too)     |
+| `prefix + k`         | go to agent                                      |
+| `prefix + :`         | command palette (`prefix + ;` and `Cmd+Shift+P`) |
+| `Ctrl+Shift+P/N`     | back/forward through spaces in visit order       |
+| `prefix + 1-9`       | select tab                                       |
+| `prefix + shift+1-9` | select space                                     |
+| `Ctrl+Shift+[/]`     | previous/next agent                              |
+| `Ctrl+Shift+I/O`     | previous/next tab                                |
+| `Ctrl+Shift+H/J/K/L` | focus pane left/down/up/right                    |
+| `Ctrl+Shift+Z`       | zoom pane (tab shows a ZOOM badge)               |
+| `Ctrl+Shift+;`       | toggle sidebar                                   |
+
+Inside the space and agent pickers: `/` search, `Esc` leave search (second `Esc` closes), `a b d w i` filter all/blocked/done/working/idle, `j/k` move, `Enter` go.
 
 ### zoxide — smarter cd
 

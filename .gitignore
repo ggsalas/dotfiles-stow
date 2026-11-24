@@ -2,3 +2,15 @@
 karabiner/.config/karabiner/automatic_backups/
 **/private.zsh
 .playwright-mcp
+
+# Herdr app
+herdr-app/**/.state/
+herdr-app/**/gpui-kit.d.ts
+herdr-app/**/jsconfig.json
+herdr-app/**/layouts/terminals.json
+herdr-app/**/layouts/win98.json
+herdr-app/**/layouts/win98.svg
+herdr-app/**/themes/win98.json
+herdr-app/**/mods/terminals-bar/
+herdr-app/**/mods/terminals-pane/
+herdr-app/**/mods/win98/

@@ -2,3 +2,4 @@
 --verbose=1
 --ignore=setupMac
 --ignore=README.md
+--ignore=AGENTS.md

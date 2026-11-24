@@ -1,0 +1,10 @@
+{
+  "place": "none",
+  "title": "Agents",
+  "overlay": {
+    "kind": "window",
+    "width": 640,
+    "height": 420,
+    "key": "agent-picker"
+  }
+}

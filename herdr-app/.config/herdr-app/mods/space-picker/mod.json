@@ -1,0 +1,14 @@
+{
+  "place": "none",
+  "title": "Spaces",
+  "overlay": {
+    "kind": "window",
+    "width": 640,
+    "height": 420,
+    "key": "space-picker"
+  },
+  "cloned_from": {
+    "name": "picker",
+    "version": "0.1.16"
+  }
+}
