@@ -7,7 +7,24 @@
 --
 --  An alternative is to use + for all, but is not good for use when changes a text
 --  See `:help 'clipboard'`
---      vim.opt.clipboard = 'unnamedplus'
+vim.opt.clipboard = "unnamedplus"
+
+-- On Linux this is used remotely (Mac -> Herdr TUI), so wl-copy would fill the
+-- clipboard of the Linux machine, not the one you are sitting at. Copy with
+-- OSC 52 instead: the terminal you are looking at puts it in its own clipboard.
+-- Paste stays local (reading OSC 52 is unreliable): use the terminal's paste
+-- (cmd+v) to bring text from the Mac, and p for what you yanked inside nvim.
+if vim.fn.has("mac") == 0 then
+  local osc52 = require("vim.ui.clipboard.osc52")
+  local function paste_local()
+    return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
+  end
+  vim.g.clipboard = {
+    name = "OSC 52 (copy only)",
+    copy = { ["+"] = osc52.copy("+"), ["*"] = osc52.copy("*") },
+    paste = { ["+"] = paste_local, ["*"] = paste_local },
+  }
+end
 vim.keymap.set({ "n", "v" }, "y", '"+y')
 vim.keymap.set("n", "yy", '<S-V>"+y<esc>')
 vim.keymap.set("i", "<C-r>r", "<C-r>+")
